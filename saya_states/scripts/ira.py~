@@ -52,9 +52,10 @@ import smach_ros
 from smach import StateMachine
 
 #Import the states for the banking taskflow
-import states.face_recognition as frn
-import states.welcome_speech as ss1
+import Face_recognition_state as frn
+import Welcome_speech as ss1
 
+from smach import State
 
 def main():
 	#Create a rospy node for the state machine	
@@ -66,19 +67,21 @@ def main():
 	#Create Smach containers for each state
 	with sm_bank:
 		StateMachine.add('Face Recognition',
-                     frn.FaceRecognition(),
-                     transistions={'Detected':'Welcome_speech','Not Detected':'Stop'})
+                     frn.Face_recognition(),
+                     transitions={'Detected':'Welcome_speech','Not_Detected':'Face Recognition'},remapping={'Face_recognition_out':'speech_in'})
 
 		StateMachine.add('Welcome_speech',
                      ss1.welcome_speech(),
                      transitions={'completed':'Stop'})
 
+		
+
 	#Code for initiating the smach_viewer
-	Monitor = smach_ros.IntrospectionServer('sayabot_hospitality', sm_bank, '/Sayabot_Hospitality')
+	Monitor = smach_ros.IntrospectionServer('IRA', sm_bank, '/IRA_FLOW')
 	Monitor.start()
 	
 	#Execute the state machine	
-	outcome = sm_top.execute()
+	outcome = sm_bank.execute()
 
 	#Stop the smach_viewer if state machine stops
 	Monitor.stop

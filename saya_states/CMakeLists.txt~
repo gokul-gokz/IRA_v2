@@ -106,7 +106,7 @@ catkin_python_setup()
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES saya_states
-#  CATKIN_DEPENDS actionlib rospy smach smach_ros
+  CATKIN_DEPENDS actionlib rospy smach smach_ros
 #  DEPENDS system_lib
 )
 

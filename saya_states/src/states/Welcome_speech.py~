@@ -4,8 +4,16 @@ import os, sys
 
 class welcome_speech(smach.State):
     def __init__(self):
-        smach.State.__init__(self, outcomes=['completed']) # Outcome
+        smach.State.__init__(self, outcomes=['completed'],input_keys=['speech_in'],) # Outcome
 	
     def execute(self, userdata):
-       	os.system("rosrun raspy_audio speech1.py") # launches the play back file
+	rospy.loginfo('Executing welcome speech state')
+	if userdata.speech_in == 'Gokul'
+       		os.system("rosrun raspy_audio speech1.py") # launches the play back file
+	else if userdata.speech_in == 'Raj'
+       		os.system("rosrun raspy_audio speech2.py") # launches the play back file
+	else if userdata.speech_in == 'Unknown'
+       		os.system("rosrun raspy_audio speech3.py") # launches the play back file
 	return 'completed'
+
+
