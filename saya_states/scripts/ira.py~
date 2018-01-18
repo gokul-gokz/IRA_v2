@@ -51,11 +51,15 @@ import smach_ros
 #Import Statemachine to create the task flow
 from smach import StateMachine
 
-#Import the states for the banking taskflow
-import Face_recognition_state as frn
-import Welcome_speech as ss1
-
 from smach import State
+
+#Import the states for the banking taskflow
+import states.Face_recognition_state as frn
+import states.Welcome_speech as ss1
+import states.Hotword_detection as hwd
+#import speech_recognition as sr
+
+
 
 def main():
 	#Create a rospy node for the state machine	
@@ -72,8 +76,15 @@ def main():
 
 		StateMachine.add('Welcome_speech',
                      ss1.welcome_speech(),
-                     transitions={'completed':'Stop'})
+                     transitions={'Completed':'Hotword_detection'})
+	
+		StateMachine.add('Hotword_detection',
+                     hwd.Hotword_detection(),
+                     transitions={'Detected':'Stop','Not_Detected':'Stop'})
 
+		#StateMachine.add('Speech_Recognition',
+                 #    sr.Speech_Recognition(),
+                  #   transitions={'Completed':'Stop'})
 		
 
 	#Code for initiating the smach_viewer

@@ -3,13 +3,15 @@ import smach
 import smach_ros
 
 from smach import State
+from face_rec.srv import *
+from std_msgs.msg import String
 
 class Face_recognition(smach.State):
 	def __init__(self):
 		#Initializing the state with outcomes and output data to be sent to the next state 
-		smach.State.__init__(self, outcomes=['Detected', 'Not_Detected'],output_keys=['Face_recognition_out'])): 
+		smach.State.__init__(self, outcomes=['Detected', 'Not_Detected'],output_keys=['Face_recognition_out'])
 
-	 def execute(self, userdata):
+	def execute(self, userdata):
 		rospy.loginfo('Executing state FACE RECOGNITION')
 		rospy.wait_for_service('face_server')
 		try:
@@ -18,12 +20,12 @@ class Face_recognition(smach.State):
 
 			#Calling the client
 			person = face_recognition_client("name")
-
+			
 			#Checking the data from the face recognition server 
-			if person == "none":
-				return 'Not Detected'
-			else
-				userdata.Face_recognition_out = person
+			if person.prediction == 'None':
+				return 'Not_Detected'
+			else:
+				userdata.Face_recognition_out = person.prediction
 				return 'Detected'
     		
 		except rospy.ServiceException, e:
