@@ -53,11 +53,16 @@ from smach import StateMachine
 
 from smach import State
 
+#Adding the system path
+#import sys
+#sys.path.append("/home/asimov16/IRA_V2_ws/src/saya_states/src/states")
+
+
 #Import the states for the banking taskflow
 import states.Face_recognition_state as frn
 import states.Welcome_speech as ss1
 import states.Hotword_detection as hwd
-#import speech_recognition as sr
+import states.Speech_recognition as sr
 
 
 
@@ -76,15 +81,15 @@ def main():
 
 		StateMachine.add('Welcome_speech',
                      ss1.welcome_speech(),
-                     transitions={'Completed':'Hotword_detection'})
+                     transitions={'completed':'Hotword_detection'})
 	
 		StateMachine.add('Hotword_detection',
                      hwd.Hotword_detection(),
-                     transitions={'Detected':'Stop','Not_Detected':'Stop'})
+                     transitions={'Detected':'Speech_Recognition','Not_Detected':'Face Recognition'})
 
-		#StateMachine.add('Speech_Recognition',
-                 #    sr.Speech_Recognition(),
-                  #   transitions={'Completed':'Stop'})
+		StateMachine.add('Speech_Recognition',
+                     sr.Speech_Recognition(),
+                     transitions={'Completed':'Hotword_detection'})
 		
 
 	#Code for initiating the smach_viewer

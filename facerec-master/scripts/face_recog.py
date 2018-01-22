@@ -8,7 +8,7 @@ size = 2
 fn_haar = '/home/asimov16/IRA_V2_ws/src/facerec-master/scripts/haarcascade_frontalface_default.xml'
 fn_dir = '/home/asimov16/IRA_V2_ws/src/facerec-master/scripts/att_faces'
 detection_height = 60  
-frame_count_thres=20
+frame_count_thres=50
 predicion_thres=500
 show_output=True #False
 

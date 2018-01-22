@@ -1,6 +1,7 @@
 import rospy
 import smach
 import os, sys
+import time
 
 class welcome_speech(smach.State):
     def __init__(self):
@@ -17,10 +18,12 @@ class welcome_speech(smach.State):
 	elif userdata.speech_in == 'Unknown':
 		print("unknown")
 		os.system("mpg321 /home/asimov16/IRA_V2_ws/src/saya_states/sound_snippets/welcome_common.mp3")
+		
        		#os.system("rosrun raspy_audio speech3.py") # launches the play back file
 	elif userdata.speech_in == 'gokul':
 		print("gokul")
 		os.system("mpg321 /home/asimov16/IRA_V2_ws/src/saya_states/sound_snippets/welcome_gokul.mp3")
+	time.sleep(2)
 	return 'completed'
 
 

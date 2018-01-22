@@ -20,6 +20,9 @@ class Hotword_detection(smach.State):
     def detected_callback(self):
 	global detected
 	rospy.loginfo('Detected')
+
+	#Assign the detected variable true.
+	#The reason for using global variable is that we cannot return the outcome of the state over here. So, this will interrupt the callback once the hotword is detected and then in the main function by checking this variable , the outcome of the state will be set. 
 	detected = True
 
     def interrupt_callback(self):
@@ -29,6 +32,7 @@ class Hotword_detection(smach.State):
 	
 	t=(time.time() - start_time)+t
 	
+        #Timeout for the detection(10secs) and check the detection status
 	if t<.0001 and not detected:
 		interrupted=False
 		return interrupted
@@ -47,6 +51,8 @@ class Hotword_detection(smach.State):
                interrupt_check=self.interrupt_callback,
                sleep_time=0.03)
 	if detected:
+		global detected
+		detected =False
 		return 'Detected'
 	else:
 		return 'Not_Detected'

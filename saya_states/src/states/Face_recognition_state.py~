@@ -25,7 +25,7 @@ class Face_recognition(smach.State):
 			if person.prediction == 'None':
 				return 'Not_Detected'
 			else:
-				userdata.Face_recognition_out = person
+				userdata.Face_recognition_out = person.prediction
 				return 'Detected'
     		
 		except rospy.ServiceException, e:
