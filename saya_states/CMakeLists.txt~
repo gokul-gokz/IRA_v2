@@ -163,6 +163,9 @@ include_directories(
  install(PROGRAMS
    scripts/ira.py
    DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+
+   scripts/ira_speech_service_architecture.py
+   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
  )
 
 ## Mark executables and/or libraries for installation

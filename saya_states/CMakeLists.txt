@@ -161,9 +161,10 @@ include_directories(
 ## Mark executable scripts (Python etc.) for installation
 ## in contrast to setup.py, you can choose the destination
  install(PROGRAMS
-   scripts/ira.py
+   scripts/ira_speech_service_architecture.py
    DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
- )
+
+    )
 
 ## Mark executables and/or libraries for installation
 # install(TARGETS ${PROJECT_NAME} ${PROJECT_NAME}_node
