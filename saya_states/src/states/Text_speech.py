@@ -15,13 +15,16 @@ class Text_speech(smach.State):
 	
     def execute(self, userdata):
 	rospy.loginfo('Executing Text to speech state')
-	tts=gTTS(text=userdata.Text_in, lang='en', slow=False)
-	tts.save("reply.mp3")
-	os.system('mpg321 reply.mp3 &')
+	if userdata.Text_in != "":
+		tts=gTTS(text=userdata.Text_in, lang='en', slow=False)
+		tts.save("reply.mp3")
+		os.system('mpg321 reply.mp3 &')
 
-	audio = MP3("/home/asimov16/IRA_V2_ws/src/saya_states/scripts/reply.mp3")
-	length=audio.info.length
-	time.sleep(length)
+		audio = MP3("/home/asimov16/IRA_V2_ws/src/saya_states/scripts/reply.mp3")
+		length=audio.info.length
+		time.sleep(length)
+	else:
+		print("No text to speech")
 
 	
 	return 'completed'

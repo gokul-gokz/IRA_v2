@@ -63,6 +63,7 @@ import states.Face_recognition_state as frn
 import states.Welcome_speech as ss1
 import states.Hotword_detection_client as hwdc
 import states.Speech_recognition_client as src
+import states.Speech_database_client as sdc
 import states.Text_speech as ts
 
 
@@ -89,8 +90,12 @@ def main():
                      transitions={'Detected':'Speech_Recognition','Not_Detected':'Stop'})
 
 		StateMachine.add('Speech_Recognition',
-                     src.Speech_Recognition(),
-                     transitions={'Completed':'Text_speech'},remapping={'speech_recognition_out':'Text_in'})
+                     src.Speech_recognition(),
+                     transitions={'Completed':'Speech_database','Not_Completed':'Face Recognition'},remapping={'speech_recognition_out':'Database_in'})
+
+		StateMachine.add('Speech_database',
+                     sdc.Speech_database(),
+                     transitions={'Completed':'Text_speech','Not_Completed':'Face Recognition'},remapping={'speech_database_out':'Text_in'})
 
 		StateMachine.add('Text_speech',
                      ts.Text_speech(),

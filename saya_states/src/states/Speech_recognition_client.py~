@@ -9,7 +9,7 @@ from std_msgs.msg import String
 
 class Speech_Recognition(smach.State):
 	def __init__(self):
-        	smach.State.__init__(self, outcomes=['Completed'],output_keys=['speech_recognition_out']) # Outcome
+        	smach.State.__init__(self, outcomes=['Completed','Not_Completed'],output_keys=['speech_recognition_out']) # Outcome
 
 	def execute(self, userdata):
 		rospy.loginfo('Executing state speech recognition')
@@ -24,7 +24,8 @@ class Speech_Recognition(smach.State):
 			#Sending the detected text to the next state 'Text to speech'
 			userdata.speech_recognition_out = response.text
 
-			return Completed
+			return 'Completed'
     		
 		except rospy.ServiceException, e:
 			print "Service call failed: %s"%e
+			return 'Not_Completed'

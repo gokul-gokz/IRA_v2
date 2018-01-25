@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 from saya_hotword_detector.srv import *
 import rospy
 
@@ -69,7 +70,7 @@ def hotword_detector(req):
 
 
 
-def server():
+def hotword_server():
 	rospy.init_node('hotword_detector_server')
 
 	
@@ -80,7 +81,7 @@ def server():
 
 
 if __name__ == "__main__":
-	server()
+	hotword_server()
 	
 		
 	

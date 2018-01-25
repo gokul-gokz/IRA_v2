@@ -7,9 +7,9 @@ from smach import State
 from saya_speech_recognition.srv import *
 from std_msgs.msg import String
 
-class Speech_Recognition(smach.State):
+class Speech_recognition(smach.State):
 	def __init__(self):
-        	smach.State.__init__(self, outcomes=['Completed'],output_keys=['speech_recognition_out']) # Outcome
+        	smach.State.__init__(self, outcomes=['Completed','Not_Completed'],output_keys=['speech_recognition_out']) # Outcome
 
 	def execute(self, userdata):
 		rospy.loginfo('Executing state speech recognition')
@@ -28,3 +28,4 @@ class Speech_Recognition(smach.State):
     		
 		except rospy.ServiceException, e:
 			print "Service call failed: %s"%e
+			return 'Not_Completed'
