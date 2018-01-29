@@ -13,6 +13,8 @@ text = 'http://159.203.108.219:8080/SenseforthChatEngine/chat?source=alexa&apius
 #Receive the response
 r=requests.post(text)
 
+
+
 #convert the json into python dictionary
 response=r.json()
 

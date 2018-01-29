@@ -65,6 +65,7 @@ import states.Hotword_detection_client as hwdc
 import states.Speech_recognition_client as src
 import states.Speech_database_client as sdc
 import states.Text_speech as ts
+import states.voice_reply_screen as ui1
 
 
 
@@ -77,29 +78,28 @@ def main():
 
 	#Create Smach containers for each state
 	with sm_bank:
-		StateMachine.add('Face Recognition',
-                     frn.Face_recognition(),
-                     transitions={'Detected':'Welcome_speech','Not_Detected':'Face Recognition'},remapping={'Face_recognition_out':'speech_in'})
-
-		StateMachine.add('Welcome_speech',
-                     ss1.welcome_speech(),
-                     transitions={'completed':'Hotword_detection'})
-	
 		StateMachine.add('Hotword_detection',
                      hwdc.Hotword_detection(),
                      transitions={'Detected':'Speech_Recognition','Not_Detected':'Stop'})
 
 		StateMachine.add('Speech_Recognition',
                      src.Speech_recognition(),
-                     transitions={'Completed':'Speech_database','Not_Completed':'Face Recognition'},remapping={'speech_recognition_out':'Database_in'})
+                     transitions={'Completed':'Speech_database','Not_Completed':'Hotword_detection'},remapping={'speech_recognition_out':'Database_in'})
 
 		StateMachine.add('Speech_database',
                      sdc.Speech_database(),
-                     transitions={'Completed':'Text_speech','Not_Completed':'Face Recognition'},remapping={'speech_database_out':'Text_in'})
+                     transitions={'Completed':'CON','Not_Completed':'Hotword_detection'},remapping={'speech_database_out':'Text_in'})
 
-		StateMachine.add('Text_speech',
-                     ts.Text_speech(),
-                     transitions={'completed':'Hotword_detection'})
+		sm_con = smach.Concurrence(outcomes=['Waiting','Done','Not_Done'],default_outcome='Waiting',outcome_map={'Done':{'Text_speech':'Completed','ui1':'completed'},'Not_done':{'Text_speech':'Not_Completed'}},input_keys=['Text_in'])
+	
+		with sm_con:
+			smach.Concurrence.add('Text_speech',ts.Text_speech())
+			smach.Concurrence.add('ui1',ui1.Text_reply())
+		
+
+		StateMachine.add('CON',
+                     sm_con,
+                     transitions={'Waiting':'Stop','Done':'Hotword_detection'})
 		
 
 	#Code for initiating the smach_viewer

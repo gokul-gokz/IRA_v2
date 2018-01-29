@@ -1,3 +1,7 @@
 string query
 ---
-string reply
+string voice
+string screen
+string[] related
+string[] disamb
+int64 key

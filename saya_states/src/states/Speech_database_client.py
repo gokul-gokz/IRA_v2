@@ -22,7 +22,7 @@ class Speech_database(smach.State):
 			response = speech_database_client(userdata.Database_in)
 			
 			#Sending the detected text to the next state 'Text to speech'
-			userdata.speech_database_out = response.voice
+			userdata.speech_database_out = response
 			print response.voice
 
 			return 'Completed'

@@ -78,19 +78,27 @@ def main():
 
 	#Create Smach containers for each state
 	with sm_bank:
+		StateMachine.add('Face Recognition',
+                     frn.Face_recognition(),
+                     transitions={'Detected':'Welcome_speech','Not_Detected':'Face Recognition'},remapping={'Face_recognition_out':'speech_in'})
+
+		StateMachine.add('Welcome_speech',
+                     ss1.welcome_speech(),
+                     transitions={'completed':'Hotword_detection'})
+	
 		StateMachine.add('Hotword_detection',
                      hwdc.Hotword_detection(),
                      transitions={'Detected':'Speech_Recognition','Not_Detected':'Stop'})
 
 		StateMachine.add('Speech_Recognition',
                      src.Speech_recognition(),
-                     transitions={'Completed':'Speech_database','Not_Completed':'Hotword_detection'},remapping={'speech_recognition_out':'Database_in'})
+                     transitions={'Completed':'Speech_database','Not_Completed':'Face Recognition'},remapping={'speech_recognition_out':'Database_in'})
 
 		StateMachine.add('Speech_database',
                      sdc.Speech_database(),
-                     transitions={'Completed':'CON','Not_Completed':'Hotword_detection'},remapping={'speech_database_out':'Text_in'})
+                     transitions={'Completed':'CON','Not_Completed':'Face Recognition'},remapping={'speech_database_out':'Text_in'})
 
-		sm_con = smach.Concurrence(outcomes=['Waiting','Done'],default_outcome='Waiting',outcome_map={'Done':{'Text_speech':'Completed','ui1':'completed'},'Waiting':{'Text_speech':'Not_Completed'}},input_keys=['Text_in'])
+		sm_con = smach.Concurrence(outcomes=['Waiting','Done'],default_outcome='Waiting',outcome_map={'Done':{'Text_speech':'completed','ui1':'completed'}},input_keys=['Text_in'])
 	
 		with sm_con:
 			smach.Concurrence.add('Text_speech',ts.Text_speech())
