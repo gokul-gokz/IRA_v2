@@ -7,8 +7,6 @@ import snowboydecoder
 
 import time
 
-
-
 #Global variable for hotword detection output
 detected = False
 interrupted = False
@@ -28,7 +26,6 @@ def detected_callback():
 def interrupt_callback():
 	global interrupted,t
 
-	
 	start_time = time.time()
 	
 	t=(time.time() - start_time)+t

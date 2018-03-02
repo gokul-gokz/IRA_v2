@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 from saya_text_speech.srv import *
 import rospy
 import os, sys
@@ -22,9 +23,9 @@ def saya_text_speech(req):
 
 def speech_text_speech_server():
 
-	rospy.init_node('speech_text_speech_server')
+	rospy.init_node('saya_text_speech_server')
 
-	s = rospy.Service('speech_text_speech_server', text, saya_text_speech)
+	s = rospy.Service('saya_text_speech_server', text, saya_text_speech)
 
 	rospy.spin()
 

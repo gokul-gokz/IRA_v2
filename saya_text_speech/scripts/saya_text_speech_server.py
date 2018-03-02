@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 from saya_text_speech.srv import *
 import rospy
 import os, sys
